@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Booking Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">movieMania</a>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="add()">Insert</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="search()">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="update()">Update</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light" onclick="logout()">Logout</button>
+                    </li>
+                </ul>
+                <form id="add" action="/addmovie" method="post"> </form>
+                <form id="searchm" action="/searchmovie" method="post"> </form>
+                <form id="search" action="/update" method="post"> </form>
+
+                
+
+
+            </div>
+            
+            
+        </div>
+    </nav>
+
+    <section class="showslist" id="showslist">
+        <form id='d' action="/deletemovie" method="post">       
+        <div class="movies-container">
+            <div class="box">
+                {% set show_date_str = movie_details.show_date|int_to_str %}
+                {% set fsd = show_date_str[:2] + "-" + show_date_str[2:4] + "-" + show_date_str[4:] %}
+                <h2>{{movie_details.movie_name}}</h2>
+                <p>{{movie_details.movie_description}}</p>
+                <span>{{fsd}} | {{movie_details.show_time}} | </span>
+                <span>Ticket price : {{movie_details.ticket_price}} Rs.</span><br><br>
+                <span>Total Revenue : {{l*movie_details.ticket_price}} Rs.</span><br><br>
+                <input type="hidden" id='movie_id' name='movie_id' value='movie_id'>
+                <button type="button" class="btn btn-primary" value={{movie_details.movie_id}} onclick="del('{{movie_details.movie_id}}')">Delete</button>
+            </div>
+        </div>
+        </form> 
+    </section>
+    
+
+    <style>
+        section {
+            padding-top: 75px;
+        }
+        .movies-container {
+            max-width: 968px;
+            margin-right: auto;
+            margin-left: auto;
+            display: grid;
+            grid-template-rows: repeat(auto-fit, minmax(180px, auto));
+            gap: 1rem;
+            margin-top: 2rem;
+            
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function logout() {
+            // Your logout logic here
+            document.location = 'http://127.0.0.1:5001/';
+        }
+        function del(movieId){
+
+            $('#movie_id').val(movieId);
+            $('#d').submit();
+        }
+        function add(){
+            $('#add').submit();
+        }
+        function searchm(){
+            $('#add').submit();
+        }
+        function update(){
+            $('#add').submit();
+        }
+
+
+    </script>
+</body>
+
+</html>

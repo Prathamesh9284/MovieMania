@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Booking Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
+        <div class="container">
+            <a class="navbar-brand" href="#">movieMania</a>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="add()">Insert</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="analysis()">Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="searchm()">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="update()">Update</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light" onclick="logout()">Logout</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="my-4">Adding Movie</h2>
+        <form id='sa' action="/successful" method="post">
+
+                <label for="movieId">Show Id</label>
+                <input type="text" class="form-control" id="movieId" name="movieId">
+
+                <label for="movieName">Movie Name</label>
+                <input type="text" class="form-control" id="movieName" name="movieName">
+
+                <label for="movieDescription">Movie Description</label>
+                <textarea class="form-control" id="movieDescription" name="movieDescription" rows="10"></textarea>
+                <label for="screen">Screen</label>
+                <input type="text" class="form-control" id="screen" name="screen">
+
+                <label for="showDate">Show Date</label>
+                <input type="date" class="form-control" id="showDate" name="showDate">
+
+                <label for="showTime">Show Time</label>
+                <input type="time" class="form-control" id="showTime" name="showTime">
+
+                <label for="ticketPrice">Ticket Price</label>
+                <input type="text" class="form-control" id="ticketPrice" name="ticketPrice"><br>
+
+                <button type="button" class="btn btn-primary" onclick="sub()">Insert</button>
+            </div>
+        </form>
+
+            <form id="searchmovie" action="/searchmovie" method="post"> </form>
+            <form id="update" action="/update" method="post"> </form>
+            <form id="analysis" action="/analysis" method="post"> </form>
+
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function logout() {
+            document.location = 'http://127.0.0.1:5001/';
+        }
+        function sub(){
+            $('#sa').submit();
+        }
+        function searchm(){
+            $('#searchmovie').submit();
+        }
+        function update(){
+            $('#update').submit();
+        }
+        function analysis(){
+            $('#analysis').submit();
+        }
+
+    </script>
+</body>
+
+</html>

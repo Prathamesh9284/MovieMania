@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Soul Flix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+</head>
+
+<body>
+    <form id='pro' action="/profile" method="post"></form>
+    <header>
+        <a href="#" class="logo">
+            <i class='bx bxs-movie-play'></i></i> MovieMania
+        </a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+        <ul class="navbar">
+            <li><a onclick="home()">Home</a></li>
+            <li><a onclick="booking()">Bookings</a></li>
+        </ul>
+        <a href="#" class="logou" onclick="profileLoader()">
+            <i class='bx bxs-user-circle u'></i></i>
+        </a>
+    </header>
+    <form id="home" action="/index" method="post"> </form>
+    <form id="booking" action="/bookings" method="post"> 
+        <input type="hidden" id="booking" name="booking" value="no">
+    </form>
+    
+    <section class="home swiper" id="home">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide container">
+                <img src="{{ url_for('static', filename='images/kung-fu-panda4.avif')}}">
+                <div class="home-text">
+
+                    <h1>Kung Fu Panda 4</h1>
+                    <span></span>
+                    <a href="#" class="btn" value="BlackPantherWakandaForever" onclick="showSeatings('hiSS')">Book
+                        Now</a>
+                    <!-- <a href="#" class="play" value="BlackPantherWakandaForever" onclick="showMovie(this.value)">
+                        <i class='bx bx-play'></i>
+                    </a> -->
+                </div>
+            </div>
+            <div class="swiper-slide container">
+                <img
+                    src="{{ url_for('static', filename='images/demon-slayer_-kimetsu-no-yaiba-to-the-hashira-training.png')}}">
+                <div class="home-text">
+
+                    <h1>Demon Slayer Kimetsu No Yaiba:<br>Hashira Training Arc</h1>
+                    <span></span>
+                    <a href="#" class="btn" value="AvengersEndgame" onclick="showMovie(this.value)">Book Now</a>
+                    <!-- <a href="#" class="play" value="AvengersEndgame" onclick="showMovie(this.value)">
+                        <i class='bx bx-play'></i>
+                    </a> -->
+                </div>
+            </div>
+            <div class="swiper-slide container">
+                <img src="{{ url_for('static', filename='images/shaitan.avif')}}">
+                <div class="home-text">
+
+                    <h1>Shaitan</h1>
+                    <span></span>
+                    <a href="#" class="btn" value="SpiderManNoWayHome" onclick="showMovie(this.value)">Book Now</a>
+                    <!-- <a href="#" class="play" value="SpiderManNoWayHome" onclick="showMovie(this.value)">
+                        <i class="bx bx-play"></i>
+                    </a> -->
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </section>
+
+    <section class="shows" id="shows">
+        <h2 class="heading">Shows</h2>
+    </section>
+    <form id="sb" action="/seatbooking" method="POST">
+        <section class="showslist" id="showslist">
+            <!-- <div class="movies-container">
+            <div class="box">
+                <h2>Kung Fu Panda 4 :</h2><p>In the film, Po (Black), who must find and train his successor as the new Dragon Warrior, teams up with fox bandit Zhen (Awkwafina) to defeat the evil sorceress, the Chameleon (Davis), before she steals the kung-fu abilities of all masters in China.</p>
+                <span>30-03-2024 | 12:00:00</span>
+                <a href="#" class="btn showlist-btn" value="AvengersEndgame" onclick="showMovie(this.value)">Book Now</a>
+            </div>
+        </div> -->
+
+            {% for i in movie_record %}
+            {% set sd = i.show_date|int_to_str %}
+            
+            {% set sd = sd[4:] + sd[2:4] + sd[:2]%}
+            {% set sd = sd|str_to_int %}
+                {% if sd > cdf %}
+                    {% set show_date_str = i.show_date|int_to_str %}
+                    {% set fsd = show_date_str[:2] + "-" + show_date_str[2:4] + "-" + show_date_str[4:] %}
+                    <div class="movies-container">
+                        <div class="box">
+                            <h2>{{i.movie_name}}</h2>
+                            <p>{{i.movie_description}}</p>
+                            <span>{{fsd}} | {{i.show_time}} | </span>
+                            <span>Ticket price : {{i.ticket_price}} Rs.</span>
+                            <a href="#" class="btn showlist-btn" value={{i.movie_id}}
+                                onclick="seatBooking('{{i.movie_id}}')">Book Now</a>
+                        </div>
+                    </div>
+                    <input type="hidden" id="booking" name="booking" value="yes">
+                    <input type="hidden" id='movie_id' name='movie_id' value='movie_id'>
+                {% endif %}
+            {% endfor %}
+        </section>
+
+    </form>
+
+    <section class=""></section>
+    <section class="n" id="n">
+        <div class="footer">
+            <a href="#" class="logo">
+                <i class="bx bxs-movie-play"></i> Soul Flix
+            </a>
+            <div class="social">
+                <a href="#">
+                    <i class="bx bxl-facebook-circle"></i>
+                </a>
+                <a href="#">
+                    <i class="bx bxl-twitter"></i>
+                </a>
+                <a href="#">
+                    <i class="bx bxl-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        let header = document.querySelector('header');
+        let menu = document.querySelector('#menu-icon');
+        let navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('shadow', window.scrollY > 0)
+        });
+        menu.onclick = () => {
+            menu.classList.toggle('bx-x');
+            navbar.classList.toggle('active');
+        }
+        window.onscroll = () => {
+            menu.classList.remove('bx-x');
+            navbar.classList.remove('active');
+        }
+        var swiper = new Swiper(".home", {
+            spaceBetween: 30,
+            loop: true,
+            centeredSlides: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+
+        });
+
+        var swiper = new Swiper(".trending-container", {
+            spaceBetween: 10,
+            loop: false,
+            centeredSlides: false,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+                0: {
+                    slidesPerView: 2,
+                },
+                568: {
+                    slidesPerView: 3,
+                },
+                768: {
+                    slidesPerView: 4,
+                },
+                968: {
+                    slidesPerView: 5,
+                },
+            },
+        });
+
+
+
+        // --------------------------------------------------------
+
+        // document.getElementById("submitButton").addEventListener("click", function(event) {
+        //     event.preventDefault(); // Prevent the default button click behavior
+        //     showSeatings();
+        // });
+
+        // $(document).ready(function () {
+        //     $('.showlist-btn').click(function () {
+        //         var movieId = $(this).val(); // Get the value of the clicked button
+        //         console.log(movieId)
+        //         // Here, you would make an AJAX request to fetch patient details using the username
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: '/seatbooking', // Your Flask route to handle fetching patient details
+        //             data: { movieId: movieId },
+        //             success: function (response) {
+        //                 console.log("Successful");
+
+        //             },
+        //             error: function (xhr, status, error) {
+        //                 console.error('Error fetching patient details:', error);
+        //             }
+        //         });
+        //         window.location.href = "seatbooking";
+        //     });
+        // });
+
+        function seatBooking(movieId) {
+            // Set the value of the hidden field to the submitted movieId
+            $('#movie_id').val(movieId);
+
+            // Submit the form
+            $('#sb').submit();
+
+            // Prevent default form submission
+            return false;
+        }
+
+        function profileLoader(){
+            $('#pro').submit();
+            return false;
+        }
+
+        function home(){
+            $('#home').submit();
+        }
+        function booking(){
+            $('#booking').submit();
+        }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</body>
+
+</html>

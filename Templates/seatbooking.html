@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    <title>Soul Flix</title>
+</head>
+
+<body>
+    <div>
+        <form id='pro' action="/profile" method="post"></form>
+    <header>
+        <a href="#" class="logo">
+            <i class='bx bxs-movie-play'></i></i> MovieMania
+        </a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+        <ul class="navbar">
+            <li><a onclick="home()">Home</a></li>
+            <li><a onclick="booking()">Bookings</a></li>
+        </ul>
+        <a href="#" class="logou" onclick="profileLoader()">
+            <i class='bx bxs-user-circle u'></i></i>
+        </a>
+    </header>
+    <form id="home" action="/index" method="post"> </form>
+    <form id="booking" action="/bookings" method="post"> 
+        <input type="hidden" id="booking" name="booking" value="no">
+    </form>
+    </div>
+
+    <!-- <?php
+    $servername = "localhost"; 
+    $username = "root"; 
+    $password = "Shlok@02"; 
+    $dbname = "onlinebooking"; 
+    
+    $conn = new mysqli($servername, $username, $password, $dbname,3306);
+    
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
+    $sql = "SELECT m_name, m_description, m_date, m_time,m_id FROM movies where m_id = ".$_GET['value']."";
+    $result = $conn->query($sql);
+    
+    $row = $result->fetch_assoc();
+    $conn->close();
+
+        echo '<section class="shows" id="shows">
+                <h2 class="heading">'.$row['m_name'] .'</h2>
+            </section>';
+    $bookedSeats = array(5, 10, 15, 20); // Example array of booked seats
+    echo '<section class="showseating" id="showseating">';
+    echo '<div class="seat-container">';
+    echo '<div class="seat-grid">';
+    for ($i = 100; $i >= 1; $i--) {
+        
+        $buttonClass = in_array($i, $bookedSeats) ? 'seatbooked' : 'seat';
+        echo '<a href="#" class="btn showlist-btn '.$buttonClass.'" value="'.$i.'" id="'.$i.'"  onclick="toggleSeat(this.id)">' . $i . '</a>';
+    }
+    echo '</div>';
+    echo '</div>';
+    echo '</section>';
+
+    ?> -->
+
+    <section class="shows" id="shows">
+        <h2 class="heading">{{movie_details.movie_name}}</h2>
+    </section>
+
+    <section class="showseating" id="showseating">
+        <div class="seat-container">
+            <div class="seat-grid">
+                {% for i in range(100, 0, -1) %}
+                {% set buttonClass = 'seatbooked' if i|string in movie_details.booked_seats else 'seat' %}
+                <a href="#" class="btn showlist-btn {{ buttonClass }}" value="{{ i }}" id="{{ i }}"
+                    onclick="toggleSeat(this.id)">{{ i }}</a>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+    <h2 class="heading2">All eyes here</h2>
+
+    <div class="padd"></div>
+
+    <section class="showseating">
+        <div class="seat-container2">
+            <a href="#" class="btn showlist-btn seat" value=" " onclick=""></a>Available
+            <a href="#" class="btn showlist-btn selected" value=" " onclick=""></a>Selected
+            <a href="#" class="btn showlist-btn seatbooked" value=" " onclick=""></a>Sold
+        </div>
+        <div class="book-button">
+            <a href="#" class="book" value="bt" id="bt" onclick="bookTickets()">Book Tickets</a>
+        </div>
+    </section>
+    <form id='s' action="/bookings" method="post">
+        <input type="hidden" id='movie_id' name='movie_id' value='movie_id'>
+        <input type="hidden" id='selected_seats' name='selected_seats' value='selected_seats'>
+        <input type="hidden" id="booking" name="booking" value="yes">
+    </form>
+
+    <div class="padd"></div>
+
+    <section class=""></section>
+    <section class="n" id="n">
+        <div class="footer">
+            <a href="#" class="logo">
+                <i class='bx bxs-movie-play'></i> Soul Flix
+            </a>
+            <div class="social">
+                <a href="#">
+                    <i class='bx bxl-facebook-circle'></i>
+                </a>
+                <a href="#">
+                    <i class='bx bxl-twitter'></i>
+                </a>
+                <a href="#">
+                    <i class='bx bxl-instagram'></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var s = "";
+        var myarray = [];
+        var movieDetails = JSON.parse('{{ movie_details.booked_seats | tojson | safe }}');
+        var movieId = JSON.parse('{{ movie_details.movie_id | tojson | safe }}');
+        var ticketPrice = JSON.parse('{{ movie_details.ticket_price | tojson | safe }}');
+        var booked_seats = movieDetails.booked_seats
+        // console.log(booked_seats) 
+        console.log(movieId)
+        function toggleSeat(id) {
+
+            var button = document.getElementById(id);
+            var computedStyle = window.getComputedStyle(button);
+            var backgroundColor = computedStyle.backgroundColor;
+
+            if (backgroundColor === "rgb(255, 255, 255)") { // Convert the color value to RGB for comparison
+                button.style.backgroundColor = "#708090";
+                button.style.color = "#fff";
+                myarray.push(id);
+                console.log(myarray);
+            } else if (backgroundColor === "rgb(112, 128, 144)") { // Convert the color value to RGB for comparison
+                button.style.backgroundColor = "#fff";
+                button.style.color = "#ff2c1f";
+                var indexToRemove = myarray.indexOf(id);
+                // If the element exists in the array, remove it
+                if (indexToRemove !== -1) {
+                    myarray.splice(indexToRemove, 1);
+                }
+                console.log(myarray);
+
+            }
+        }
+
+       
+        function bookTickets(){
+            if(myarray.length>0){
+
+                console.log(myarray)
+                var concatenatedArray = myarray.concat(movieDetails);
+                console.log(concatenatedArray.toString())
+                $('#selected_seats').val(myarray.toString());
+                $('#movie_id').val(movieId);
+
+                alert("Total = "+(myarray.length*ticketPrice))
+
+                $('#s').submit();
+            }
+        }
+
+        function profileLoader(){
+            $('#pro').submit();
+            return false;
+        }
+
+        function home(){
+            $('#home').submit();
+        }
+        function booking(){
+            $('#booking').submit();
+        }
+  
+        
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Soul Flix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style3.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+
+    <style>
+        .shows {
+            padding-top: 125px;
+        }
+        .heading {
+            width: 1080px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 2rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            border-bottom: 3px solid var(--main-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <form id='pro' action="/profile" method="post"></form>
+    <header>
+        <a href="#" class="logo">
+            <i class='bx bxs-movie-play'></i></i>MovieMania
+        </a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+        <ul class="navbar">
+            <li><a onclick="home()">Home</a></li>
+            <li><a onclick="booking()">Bookings</a></li>
+        </ul>
+        <a href="#" class="logou" onclick="profileLoader()">
+            <i class='bx bxs-user-circle u'></i></i>
+        </a>
+    </header>
+    <form id="home" action="/index" method="post"> </form>
+    <form id="booking" action="/bookings" method="post"> 
+        <input type="hidden" id="booking" name="booking" value="no">
+    </form>
+    
+    <section class="shows" id="shows">
+        <h2 class="heading">Booked Shows</h2>
+    </section>
+
+    <form id="sb" action="/seatbooking" method="POST">
+        <section class="showslist" id="showslist">
+
+            {% for i in cb %}
+            <div class="movies-container">
+                <div class="box">
+                    {% set show_date_str = i.show_date|int_to_str %}
+                    {% set fsd = show_date_str[:2] + "-" + show_date_str[2:4] + "-" + show_date_str[4:] %}
+                    &nbsp;&nbsp;&nbsp;&nbsp;<h2>{{i.movie_name}}</h2><br>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Booked seats</b> : {{i.booked_seats}}
+                        <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Screen </b>: {{i.screen}}
+                        <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Show Time </b>: {{i.show_time}}
+                        <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Show Date </b>: {{fsd}}
+                        <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Payed Amount </b>: {{i.total}}
+                        <br><br>
+                    </span>
+
+                </div>
+            </div>
+            <input type="hidden" id='movie_id' name='movie_id' value='movie_id'>
+            {% endfor %}
+        </section>
+
+    </form>
+
+    <section class=""></section>
+    <section class="n" id="n">
+        <div class="footer">
+            <a href="#" class="logo">
+                <i class="bx bxs-movie-play"></i> Soul Flix
+            </a>
+            <div class="social">
+                <a href="#">
+                    <i class="bx bxl-facebook-circle"></i>
+                </a>
+                <a href="#">
+                    <i class="bx bxl-twitter"></i>
+                </a>
+                <a href="#">
+                    <i class="bx bxl-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        function profileLoader(){
+            $('#pro').submit();
+            return false;
+        }
+
+        function home(){
+            $('#home').submit();
+        }
+        function booking(){
+            $('#booking').submit();
+        }
+    </script>
+
+</body>
+
+</html>

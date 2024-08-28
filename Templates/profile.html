@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style4.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    <title>Soul Flix</title>
+</head>
+
+<body>
+    <div>
+        <form id='pro' action="/profile" method="post"></form>
+        <header>
+            <a href="#" class="logo">
+                <i class='bx bxs-movie-play'></i></i> MovieMania
+            </a>
+            <div class="bx bx-menu" id="menu-icon"></div>
+            <ul class="navbar">
+                <li><a onclick="home()">Home</a></li>
+                <li><a onclick="booking()">Bookings</a></li>
+            </ul>
+            <a href="#" class="logou" onclick="profileLoader()">
+                <i class='bx bxs-user-circle u'></i></i>
+            </a>
+        </header>
+        <form id="home" action="/index" method="post"> </form>
+        <form id="booking" action="/bookings" method="post"> 
+            <input type="hidden" id="booking" name="booking" value="no">
+        </form>
+    </div>
+
+    <!-- <?php
+    $servername = "localhost"; 
+    $username = "root"; 
+    $password = "Shlok@02"; 
+    $dbname = "onlinebooking"; 
+    
+    $conn = new mysqli($servername, $username, $password, $dbname,3306);
+    
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
+    $sql = "SELECT m_name, m_description, m_date, m_time,m_id FROM movies where m_id = ".$_GET['value']."";
+    $result = $conn->query($sql);
+    
+    $row = $result->fetch_assoc();
+    $conn->close();
+
+        echo '<section class="shows" id="shows">
+                <h2 class="heading">'.$row['m_name'] .'</h2>
+            </section>';
+    $bookedSeats = array(5, 10, 15, 20); // Example array of booked seats
+    echo '<section class="showseating" id="showseating">';
+    echo '<div class="seat-container">';
+    echo '<div class="seat-grid">';
+    for ($i = 100; $i >= 1; $i--) {
+        
+        $buttonClass = in_array($i, $bookedSeats) ? 'seatbooked' : 'seat';
+        echo '<a href="#" class="btn showlist-btn '.$buttonClass.'" value="'.$i.'" id="'.$i.'"  onclick="toggleSeat(this.id)">' . $i . '</a>';
+    }
+    echo '</div>';
+    echo '</div>';
+    echo '</section>';
+
+    ?> -->
+
+    <section class="shows" id="shows">
+        <h2 class="heading">User Profile</h2>
+    </section>
+
+    <section class="showslist" id="showslist">
+        <div class="movies-container">
+            <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Firstname   :   </b> {{user_details.firstname}} <br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Lastname   :   </b> {{user_details.lastname}} <br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Username   :   </b> {{user_details.username}} <br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Email   :   </b> {{user_details.email}} <br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Mobile no.   :   </b> {{user_details.mobile}}</span>
+        </div>
+    </section>
+
+    <section class=""></section>
+
+    <form id='s' action="/bookings" method="post">
+        <input type="hidden" id='movie_id' name='movie_id' value='movie_id'>
+        <input type="hidden" id='selected_seats' name='selected_seats' value='selected_seats'>
+    </form>
+
+    <div class="padd"></div>
+
+    <section class=""></section>
+    <section class="n" id="n">
+        <div class="footer">
+            <a href="#" class="logo">
+                <i class='bx bxs-movie-play'></i> Soul Flix
+            </a>
+            <div class="social">
+                <a href="#">
+                    <i class='bx bxl-facebook-circle'></i>
+                </a>
+                <a href="#">
+                    <i class='bx bxl-twitter'></i>
+                </a>
+                <a href="#">
+                    <i class='bx bxl-instagram'></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script>
+        function profileLoader(){
+            $('#pro').submit();
+            return false;
+        }
+
+        function home(){
+            $('#home').submit();
+        }
+        function booking(){
+            $('#booking').submit();
+        }
+    </script>
+    
+</body>
+
+</html>
